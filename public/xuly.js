@@ -178,47 +178,76 @@ class List extends React.Component{
 }
 }
 
-class note extends React.Component{
-  constructor(props) {
-      super(props);
-      this.state = {
-
-      };
+class Note extends React.Component{
+    delete=()=>{
+      $.post("/delete",{XoaId: this.props.id},(data)=>{
+        lisss.setState({didong:data})
+      })
     }
+    getInitialState(){
+      return {onEdit: false}
+    }
+    edit=()=>{}
 render(){
+  if(this.state.onEdit){
+<div className="div-note">
+     <input defaultValue={ this.props.children} />
+     <button onClick={()=>this.delete(this)}>Delete</button>
+     <button onClick={()=>this.edit(this)}>Delete</button>
+   </div>
+  }else{
   return(
    <div className="div-note">
-      this.props.children
+     <p>{ this.props.children}</p>
+     <button onClick={()=>this.delete(this)}>Delete</button>
+     <button onClick={()=>this.edit(this)}>Delete</button>
    </div>
   )
+  }
 }
 }
 function addDiv(){
   ReactDOM.render( <Inputdiv />,document.getElementById("addInput"))
 }
+var lisss;
 class Lisss extends React.Component{
-  // Lisss=this;
+  
   constructor(props) {
       super(props);
+       lisss=this;
       this.state = {
-           didong:["Android","Ios","Samsung","Apple","Window"]
+           didong:[]
       };
     }
- 
+    delete=()=>{
+      $.post("/delete",{XoaId: this.props.key},(data)=>{
+        lisss.setState({didong:data})
+      })
+    }
 render(){
   return(
    <div className='div-div'>
+     
      <div id="addInput"></div>
       <button onClick={addDiv}>Them</button>
       {
         this.state.didong.map((non,index)=>{
-            return <note key={index}>{non}</note>
+            return (<div> <Note key={index} id={index}>{non}</Note>
+        
+            </div>)
         })
-      }
+      } 
    </div>
   )
 }
+componentDidMount(){
+  var that = this
+  $.post("/getNotes",(data)=>{
+    that.setState({didong:data})
+  })
 }
+}
+
 class Inputdiv extends React.Component{
   constructor(props) {
       super(props);
@@ -227,11 +256,15 @@ class Inputdiv extends React.Component{
       };
     }
     send =()=>{
-      Lisss.setState({didong:Lisss.state.concat(this.refs.txt.value)})
+      $.post("/add",{note:this.refs.txt.value},(data)=>{
+        lisss.setState({didong:data})
+      })
+      // lisss.setState({didong: lisss.state.didong.concat(this.refs.txt.value)})
+      ReactDOM.unmountComponentAtNode(document.getElementById('addInput'))
     }
 render(){
   return(
-   <div>
+   <div id="AA">
        <input type="text" ref="txt" placeHolder="Vui lòng nhập"/>
        <button onClick={this.send}>Gửi</button>
    </div>

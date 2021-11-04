@@ -2,14 +2,15 @@ img{
     width: 250px;
     height: 250px;
 }
-note{
+.div-note{
     width: 350px;
-    padding: 5px;
+    padding: 10px;
     margin: 3px;
     border: solid 3px green;
     border-radius: 5px;
-    display: block;
+    display: inline-block;
 }
+
 .div-div{
     width: 470px;
     padding: 5px;
