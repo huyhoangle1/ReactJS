@@ -66,8 +66,7 @@ class InputTag extends React.Component{
 function Hoang3 (){
     return  <h1 className="mauvang">Demo Reactjs function </h1>;    
 }
-const element = <Hoang2 /> 
-
+const element = <Hoang2 />
 
 class InputTags extends React.Component{
     constructor(props) {
@@ -93,12 +92,12 @@ class Album extends React.Component{
           hinh : 1
         };
       }
-    next =()=>{
-        this.setState({hinh: this.state.hinh + 1})
-    }
-    prev =()=>{
-        this.setState({hinh: this.state.hinh - 1})
-    }
+      next=()=>{
+         this.setState({hinh : this.state.hinh ==5?5:this.state.hinh +1}) 
+      }
+      prev=()=>{
+         this.setState({hinh : this.state.hinh ==1?1:this.state.hinh -1}) 
+      }
   render(){
     return(
      <div>
@@ -111,8 +110,134 @@ class Album extends React.Component{
     )
 }
 }
+class Albums extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+          hinh : 1
+        };
+      }
+ changeImage=()=>{
+     this.setState({hinh:( this.state.hinh %5 ) +1})
+ }
+ 
 
+  render(){
+    return(
+     <div>
+         <img src={"image/" + this.state.hinh +".png"} /><hr/>
+         <button onClick={this.tool}>Prev</button>
+     </div>
+    )
+}
+    componentDidMount(){
+        setInterval(this.changeImage, 1000);
 
+}
+}
+class Contents extends React.Component {
+  render() {
+    return ( 
+        <div>
+          <img src={this.props.src} />
+          <p>{this.props.children}</p>
+        </div>
+        )
+  }
+}
+
+class List extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            mang:[
+              { src1: "image/3.png", noidung:"hello"},
+                {src1: "image/2.png", noidung:"hoang"},
+                {src1: "image/1.png", noidung:"hi"}
+        ]
+        };
+      }
+      add=()=>{
+          this.state.mang.push( {src1: "image/4.png", noidung:"hoang"}, {src1: "image/5.png", noidung:"hoang"});// unShift Thêm vào đầu của mảng
+          this.setState(this.state)
+      }
+     
+
+  render(){
+    return(
+     <div>
+       
+         <button onClick={this.add}>Them</button>
+   {
+       this.state.mang.map((node,index)=>{
+           return <Contents key={index} src={node.src1}>{node.noidung}</Contents>
+       })
+   }
+     </div>
+    )
+}
+}
+
+class note extends React.Component{
+  constructor(props) {
+      super(props);
+      this.state = {
+
+      };
+    }
+render(){
+  return(
+   <div className="div-note">
+      this.props.children
+   </div>
+  )
+}
+}
+function addDiv(){
+  ReactDOM.render( <Inputdiv />,document.getElementById("addInput"))
+}
+class Lisss extends React.Component{
+  // Lisss=this;
+  constructor(props) {
+      super(props);
+      this.state = {
+           didong:["Android","Ios","Samsung","Apple","Window"]
+      };
+    }
+ 
+render(){
+  return(
+   <div className='div-div'>
+     <div id="addInput"></div>
+      <button onClick={addDiv}>Them</button>
+      {
+        this.state.didong.map((non,index)=>{
+            return <note key={index}>{non}</note>
+        })
+      }
+   </div>
+  )
+}
+}
+class Inputdiv extends React.Component{
+  constructor(props) {
+      super(props);
+      this.state = {
+          
+      };
+    }
+    send =()=>{
+      Lisss.setState({didong:Lisss.state.concat(this.refs.txt.value)})
+    }
+render(){
+  return(
+   <div>
+       <input type="text" ref="txt" placeHolder="Vui lòng nhập"/>
+       <button onClick={this.send}>Gửi</button>
+   </div>
+  )
+}
+}
 
 
 ReactDOM.render( 
@@ -123,8 +248,9 @@ ReactDOM.render(
         <InputTag />
         <InputTags />
         <Album />
-        {/* <CustomTextInput /> */}
-    </div>  //Cách 1: Class
-    // <div><Hoang2 /></div> Cách 2: Function, không cần tạo element
-    // element Cách 2: Function 
+        <Albums />
+        <List />
+        <Lisss />
+        
+        </div>
 , document.getElementById("root"));

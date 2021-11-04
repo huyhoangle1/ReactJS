@@ -1,0 +1,18 @@
+img{
+    width: 250px;
+    height: 250px;
+}
+note{
+    width: 350px;
+    padding: 5px;
+    margin: 3px;
+    border: solid 3px green;
+    border-radius: 5px;
+    display: block;
+}
+.div-div{
+    width: 470px;
+    padding: 5px;
+    border-radius: 5px;
+    border: solid 1px red
+}
